@@ -1,0 +1,6 @@
+Addition: +
+Subtraction: -
+Division: /
+Multiplication: *
+Exponent/Power: **
+Mod: %

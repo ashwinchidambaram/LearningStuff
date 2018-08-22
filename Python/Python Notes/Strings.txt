@@ -1,0 +1,25 @@
+Print statement:							print("______")
+Add new line within string:						\n
+Add tab within string: 							\t
+Find length of string: 							len()
+
+Indexing Strings: Present at the same time but have diff applications
+- Normal Indexing goes 0, 1, 2, 3, 4 ...
+- Reverse Indexing goes: ... -4, -3, -2, -1
+
+Subsection of a string from position x to the end: 			[x:]
+Subsection from the beginning up to position x (Does not include x):	[:x]
+To get a subsection from x to y:					[x:y]
+To get step sizes (z) of an index:					[::z]
+If we wanted to specify a start(x) and stop(y) with a step(z):		[x:y:z]
+To reverse a string, its easy to reverse step it:			[::-1]
+
+Assuming string x
+---
+To make all uppercase: 							x.upper()
+To make all lowercase:							x.lower()
+To split a string into a list: 						x.split()
+To split a string based on a char:					x.split('z')
+
+
+

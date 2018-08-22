@@ -1,0 +1,8 @@
+Data Types:
+
+- Integer (int): Whole numbers such as 4, 45, 362
+- Floating Point (float): Numbers w/decimal points such as 4.6, 32.3, 462.0
+- Strings (str): Any sequence of characters such as 'Hello World', 'Pizza', 'Etc.'
+- Lists (list): ordered sequence of objects [32, 45, 'numbers', 62]
+- Booleans (bool): True/False logic value
+
