@@ -3,7 +3,7 @@
 /*######################### CHALLENGES #######################################*/
 
 /*############################################################################*/
-/* Challenge # 1: SELECT task
+/* Challenge # 1: SELECT
 
 Use a SELECT statement to grab the first and last names of every customer and
 their email addresses

@@ -136,7 +136,6 @@ EXAMPLE: */
   FROM customer
   ORDER BY first_name ASC
 
-
 /*############################################################################*/
 /* BETWEEN Operator
 
