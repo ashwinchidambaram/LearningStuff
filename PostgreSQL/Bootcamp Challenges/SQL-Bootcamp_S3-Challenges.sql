@@ -42,21 +42,25 @@ LIMIT 5
 
 
 /*############################################################################*/
+/* Challenge # 2: HAVING (1)
 
-
-
-
-
-
-
-
-
-
-/*############################################################################*/
-/*###################### General Challenge # 2 ###############################*/
-/*############################################################################*/
-
-/* Challenge (1):
-
-
+We want to know what customers are eligible for our platinum credit card. The
+requirements are that the customer has at least a total of 40 transaction
+payments. What customers (by customer_id) are elligible for the credit card?
 */
+
+SELECT customer_id, COUNT(payment_id)
+FROM payment
+GROUP BY customer_id
+HAVING COUNT(payment_id) >= 40
+
+/* Challenge # 2: HAVING (2)
+
+When grouped by rating, what movie ratings have an average rental duration of
+more than 5 days?
+*/
+
+SELECT rating, ROUND(AVG(rental_duration), 0)
+FROM film
+GROUP BY rating
+HAVING AVG(rental_duration) > 5
