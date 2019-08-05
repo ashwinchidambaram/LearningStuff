@@ -187,7 +187,7 @@ THEORY EXAMPLE: Suppose we want to find out which employees are from the same
     AND e2.employee_name = "Joe"
 
   NOTE: And note that we don't use any JOIN statements within this query since
-        it is a self join, and we circumvent the need by using aliasing in L189.
+        it is a self join, and we circumvent the need by using aliasing in L185.
 
 ==========================================================
 == So what does the self join above look like visually? ==
