@@ -8,9 +8,10 @@
 How can you retrieve all the information from the cd.facilities table?
 */
 
+SELECT *
+FROM cd.facilities
 
-
-/* RESULT: */
+/* RESULT: CORRECT */
 
 
 /*############################################################################*/
@@ -20,9 +21,10 @@ You want to print out a list of all of the facilities and their cost to members.
 How would you retrieve a list of only facility names and costs?
 */
 
+SELECT name, membercost
+FROM cd.facilities
 
-
-/* RESULT: */
+/* RESULT: CORRECT */
 
 
 /*############################################################################*/
@@ -31,9 +33,17 @@ How would you retrieve a list of only facility names and costs?
 How can you produce a list of facilities that charge a fee to members?
 */
 
+SELECT name
+FROM cd.facilities
+WHERE membercost != 0
 
+/* RESULT: CORRECT, however, below is given answer
 
-/* RESULT: */
+select *
+from cd.facilities
+where membercost > 0
+
+*/
 
 
 /*############################################################################*/
@@ -45,9 +55,17 @@ facility name, member cost, and monthly maintenance of the facilities in
 question.
 */
 
+SELECT facid, name, membercost, monthlymaintenance
+FROM cd.facilities
+WHERE membercost < (monthlymaintenance/50) AND membercost != 0
 
+/* RESULT: CORRECT, however, below is given answer
 
-/* RESULT: */
+select facid, name, membercost, monthlymaintenance
+from cd.facilities
+where membercost > 0 and (membercost < monthlymaintenance/50.0)
+
+*/
 
 
 /*############################################################################*/
@@ -57,9 +75,11 @@ How can you produce a list of all facilities with the word 'Tennis' in their
 name?
 */
 
+SELECT *
+FROM cd.facilities
+WHERE name LIKE '%Tennis%'
 
-
-/* RESULT: */
+/* RESULT: CORRECT */
 
 
 /*############################################################################*/
@@ -69,9 +89,11 @@ How can you retrieve the details of facilities with ID 1 and 5? Try to do it
 without using the OR operator.
 */
 
+SELECT *
+FROM cd.facilities
+WHERE facid IN (1,5)
 
-
-/* RESULT: */
+/* RESULT: CORRECT */
 
 
 /*############################################################################*/
@@ -82,9 +104,17 @@ How can you produce a list of members who joined after the start of September
 question.
 */
 
+SELECT memid, surname, firstname, joindate
+FROM cd.members
+WHERE extract(year from joindate) >= 2012 AND extract(month from joindate) >= 9
 
+/* RESULT: CORRECT, however, below is given answer
 
-/* RESULT: */
+select memid, surname, firstname, joindate
+from cd.members
+where joindate >= '2012-09-01'
+
+*/
 
 
 /*############################################################################*/
@@ -94,9 +124,12 @@ How can you produce an ordered list of the first 10 surnames in the members
 table? The list must not contain duplicates.
 */
 
+SELECT DISTINCT(surname), *
+FROM cd.members
+ORDER BY surname
+LIMIT 10
 
-
-/* RESULT: */
+/* RESULT: CORRECT, except they didn't include '*' all */
 
 
 /*############################################################################*/
@@ -106,9 +139,17 @@ You'd like to get the signup date of your last member. How can you retrieve this
 information?
 */
 
+SELECT *
+FROM cd.members
+ORDER BY joindate DESC
+LIMIT 1
 
+/* RESULT: CORRECT, however, below is given answer
 
-/* RESULT: */
+select max(joindate) as latest
+from cd.members
+
+*/
 
 
 /*############################################################################*/
@@ -118,9 +159,11 @@ Produce a count of the number of facilities that have a cost to guests of 10 or
 more.
 */
 
+SELECT COUNT(*)
+FROM cd.facilities
+WHERE guestcost >=10
 
-
-/* RESULT: */
+/* RESULT: CORRECT */
 
 
 /*############################################################################*/
@@ -136,9 +179,21 @@ September 2012. Produce an output table consisting of facility id and slots,
 sorted by the number of slots.
 */
 
+SELECT facid, SUM(slots) AS bookedslots
+FROM cd.bookings
+WHERE extract(year from starttime) = 2012 AND extract(month from starttime) = 9
+GROUP BY facid
+ORDER BY bookedslots
 
+/* RESULT: CORRECT, however, below is given answer
 
-/* RESULT: */
+select facid, sum(slots) as "Total Slots"
+from cd.bookings
+where starttime >= '2012-09-01' and starttime < '2012-10-01'
+group by facid
+order by sum(slots)
+
+*/
 
 
 /*############################################################################*/
