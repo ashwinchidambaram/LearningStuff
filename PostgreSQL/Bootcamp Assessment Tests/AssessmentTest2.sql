@@ -11,7 +11,12 @@ How can you retrieve all the information from the cd.facilities table?
 SELECT *
 FROM cd.facilities
 
-/* RESULT: CORRECT */
+/* RESULT: CORRECT
+
+select *
+from cd.facilities;
+
+*/
 
 
 /*############################################################################*/
@@ -24,7 +29,12 @@ How would you retrieve a list of only facility names and costs?
 SELECT name, membercost
 FROM cd.facilities
 
-/* RESULT: CORRECT */
+/* RESULT: CORRECT
+
+select name, membercost
+from cd.facilities;
+
+*/
 
 
 /*############################################################################*/
@@ -79,7 +89,14 @@ SELECT *
 FROM cd.facilities
 WHERE name LIKE '%Tennis%'
 
-/* RESULT: CORRECT */
+/* RESULT: CORRECT
+
+select *
+from cd.facilities
+where name
+like '%Tennis%';
+
+*/
 
 
 /*############################################################################*/
@@ -93,7 +110,13 @@ SELECT *
 FROM cd.facilities
 WHERE facid IN (1,5)
 
-/* RESULT: CORRECT */
+/* RESULT: CORRECT
+
+select *
+from cd.facilities
+where facid in (1,5);
+
+*/
 
 
 /*############################################################################*/
@@ -129,7 +152,14 @@ FROM cd.members
 ORDER BY surname
 LIMIT 10
 
-/* RESULT: CORRECT, except they didn't include '*' all */
+/* RESULT: CORRECT
+
+select distinct surname
+from cd.members
+order by surname
+limit 10;
+
+*/
 
 
 /*############################################################################*/
@@ -144,10 +174,10 @@ FROM cd.members
 ORDER BY joindate DESC
 LIMIT 1
 
-/* RESULT: CORRECT, however, below is given answer
+/* RESULT: CORRECT
 
 select max(joindate) as latest
-from cd.members
+from cd.members;
 
 */
 
@@ -163,7 +193,13 @@ SELECT COUNT(*)
 FROM cd.facilities
 WHERE guestcost >=10
 
-/* RESULT: CORRECT */
+/* RESULT: CORRECT
+
+select count(*)
+from cd.facilities
+where guestcost >= 10;
+
+*/
 
 
 /*############################################################################*/
@@ -185,7 +221,7 @@ WHERE extract(year from starttime) = 2012 AND extract(month from starttime) = 9
 GROUP BY facid
 ORDER BY bookedslots
 
-/* RESULT: CORRECT, however, below is given answer
+/* RESULT: CORRECT
 
 select facid, sum(slots) as "Total Slots"
 from cd.bookings
@@ -203,9 +239,22 @@ Produce a list of facilities with more than 1000 slots booked. Produce an output
 table consisting of facility id and total slots, sorted by facility id.
 */
 
+SELECT facid, SUM(slots) AS "Booked Slots"
+FROM cd.bookings
+GROUP BY facid
+HAVING SUM(slots) > 1000
+ORDER BY facid
 
 
-/* RESULT: */
+/* RESULT: CORRECT
+
+select facid, sum(slots) as "Total Slots"
+from cd.bookings
+group by facid
+having sum(slots) > 1000
+order by facid;
+
+*/
 
 
 /*############################################################################*/
@@ -216,9 +265,21 @@ for the date '2012-09-21'? Return a list of start time and facility name
 pairings, ordered by the time.
 */
 
+SELECT bookings.starttime, name
+FROM cd.facilities
+JOIN cd.bookings ON facilities.facid = bookings.facid
+WHERE bookings.facid IN (0,1) AND (starttime >= '2012-09-21' AND starttime < '2012-09-22')
+ORDER BY starttime
 
+/* RESULT: CORRECT
 
-/* RESULT: */
+select bks.starttime as start, facs.name as name
+from cd.facilities facs
+inner join cd.bookings bks on facs.facid = bks.facid
+where facs.facid in (0,1) and bks.starttime >= '2012-09-21' and bks.starttime < '2012-09-22'
+order by bks.starttime;
+
+*/
 
 
 /*############################################################################*/
@@ -228,6 +289,16 @@ How can you produce a list of the start times for bookings by members named
 'David Farrell'?
 */
 
+SELECT starttime
+FROM cd.bookings
+JOIN cd.members ON bookings.memid = members.memid
+WHERE firstname = 'David' AND surname = 'Farrell'
 
+/* RESULT: CORRECT
 
-/* RESULT: */
+ select bks.starttime
+ from cd.bookings bks
+ inner join cd.members mems on mems.memid = bks.memid
+ where mems.firstname='David' and mems.surname='Farrell';
+
+*/
