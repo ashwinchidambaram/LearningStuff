@@ -68,155 +68,181 @@ Notes:
 
     - Array
 
-Basic syntax of :
-
-
-EXAMPLE: */
-
-
 
 /*############################################################################*/
 /* Primary Keys and Foreign Keys
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
-  -
 
-EXAMPLE: */
+  Primary Key:
+  - A "primary key" is a column, or group of columns that are used to identify a
+    row uniquely in a table
+  - A table can have ONLY one primary key
+  - We add a primary key to a table, when we define the table's stucture using   *********
+    a CREATE TABLE statement
 
+        CREATE TABLE table_name (
+            column_name data_type PRIMARY KEY,
+            column_name data_type, ...)
+
+  Foreign Key:
+  - A "foreign key" is a field or group of fields in a table that uniquely
+    identifies a row in another table
+  - The table that contains teh foeign key is called 'referencing table' or
+    'child table'. And the table to which the foreign key references is called
+    the 'referenced table' or 'parent table'
+  - A table can have multiple foreign keys depending on its relationship with
+    other tables
+  - In PSQL, a foreign key is defined through foreign key constaints
+    - A "foreign key constraint" indicates that values in the column or group of
+      columns in the child table match with the values in a column or group of
+      columns of the parent table
+    - We say that a foreign key constraint maintains 'referential integrity'
+      between parent/child tables
 
 
 /*############################################################################*/
 /* Create Table
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
-  -
+  - To create a new table in PSQL, we will use the CREATE TABLE statement like:
 
-EXAMPLE: */
+        CREATE TABLE table_name (
+            column_name TYPE column_constraint,
+            table_constraint)
+        INHERITS existing_table_name
 
+        - Code Breakdown of Above:
+          - First line: Specifying the name of the new table we are creating
+              after the 'CREATE TABLE' statement
+          - Second Line: List the column name, its data type, and the column
+              constraint. Can have multiple columns in a table, and wach column
+              is separated by a comma.
+            - Column constraint defines the rules for the column (ie: NOT NULL)
+          - Third Line: We define the the table level constraint that defines
+              the rules for the data in the table
+          - Fourth Line: Specify an existing table from which the new table
+              inherits. Meaning the new table will contain all columns of the
+              existing table in addition to the columns defined in the
+              'CREATE TABLE' statement (OPTIONAL)
+
+  - PostrgreSQL Column Constraints
+    - NOT NULL: the value of the column cannot be NULL
+    - UNIQUE: the value of the column must be unique across the whole table
+      - However, the column can have many NULL values becuase PSQL treats each
+        NULL value to be unique
+    - PRIMARY KEY: this constraint is the combination of NOT NULL and UNIQUE
+      - NOTE: We can define one column as the primary key using column level
+        constraints, but if we have a primary key consisting of multiple columns
+        we must use a table level constraint
+    - CHECK: enables to check a condition wehn you insert or update data
+      - ie: the values in the price column of the product table must be positive
+    - REFERENCES: constrains the value of the column that exists in a column in
+        another table
+
+EXAMPLE:
+
+  [1] Creating tables example:
+
+    Info about tables we are creating:
+      Table 1: role
+        role_id (int4)                                               PRIMARY KEY
+        role_name(varchar(255))}
+
+      Table 2: account_role
+        user_id (int4)                                               PRIMARY KEY
+        role_id (int4)                                               PRIMARY KEY
+        grant_date (timestamp)
+
+      Table 3: account
+        user_id (int4)                                               PRIMARY KEY
+        username (varchar(50))
+        password (varchar(50))
+        email (varchar(355))
+        created_on (timestamp)
+        last_login (timestamp)
+
+    Creating Tables: */
+
+      CREATE TABLE account(
+         user_id serial PRIMARY KEY,
+         username VARCHAR(50) UNIQUE NOT NULL,
+         password VARCHAR(50) NOT NULL,
+         email VARCHAR(355) UNIQUE NOT NULL,
+         created_on TIMESTAMP NOT NULL,
+         last_login TIMESTAMP)
+
+      CREATE TABLE role(
+         role_id serial PRIMARY KEY,
+         role_name VARCHAR(255) UNIQUE NOT NULL)
+
+      CREATE TABLE account_role(
+         user_id integer NOT NULL
+         role_id integer NOT NULL
+         grant_date timestamp without time zone,
+         PRIMARY KEY (user_id, role_id),
+
+         CONSTRAINT account_role_role_id_fkey FOREIGN KEY (role_id)
+          REFERENCES role (role_id) MATCH SIMPLE
+         	ON UPDATE NO ACTION ON DELETE NO ACTION,
+
+         -- Creating a foreign key in the query segments above and below
+
+         CONSTRAINT account_role_user_id_fkey FOREIGN KEY (user_id)
+         	REFERENCES account (user_id) MATCH SIMPLE
+         	ON UPDATE NO ACTION ON DELETE NO ACTION
+        )
+
+      -- The CONSTRAINTs above are not clear yet, but will be clarified later
 
 
 /*############################################################################*/
 /* Insert
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
 /* Update
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
 /* Delete
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
 /* Alter Table
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
 /* Drop Table
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
 /* CHECK Constraint
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
 /* NOT NULL Constraint
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
   -
-
-EXAMPLE: */
-
 
 
 /*############################################################################*/
