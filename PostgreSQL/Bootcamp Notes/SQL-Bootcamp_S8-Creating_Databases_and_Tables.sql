@@ -287,12 +287,3 @@ EXAMPLE: */
 /*############################################################################*/
 /*######################## EXTRA NOTES #######################################*/
 /*############################################################################*/
-/*
-||1|| - This is a simple subquery
-||2|| - How to use a pattern (%)
-
-    You can construct a pattern by combining a string with wildcard characters
-    and use the LIKE or NOT LIKE operators to find the matches
-
-      - Use the percent (%) for matching any sequence of characters
-      - Use the underscore (_) for matching any single character
