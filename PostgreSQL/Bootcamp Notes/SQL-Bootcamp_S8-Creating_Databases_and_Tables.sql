@@ -492,41 +492,33 @@ DETAIL:  Failing row contains (John, null).
 /*############################################################################*/
 /* UNIQUE Constraint
 
-Usage:
-
-Basic syntax of :
-
-
-
 Notes:
-  -
+  - Used to ensure that the value in a column or group of columns is unique in
+    a table.
+  - With a UNIQUE constraint, every time we insert a new row, PSQL will check
+    whether the value is already in a table.
+  - If the value already exists, it will throw an error message.
 
 EXAMPLE: */
 
+-- Create a table to test on
+CREATE TABLE people(
+	id serial PRIMARY KEY,
+	firstN varchar(50),
+	email varchar(100) UNIQUE)
 
+-- Populate with one data set
+INSERT INTO people(id, firstN, email)
+VALUES(1, 'Joe', 'joe@joe.com')
 
-/*############################################################################*/
-/*
+-- Insert a non-unique data set
+INSERT INTO people(id, firstN, email)
+VALUES(2, 'Joseph', 'joe@joe.com')
 
-Usage:
-
-Basic syntax of :
-
-
-
-Notes:
-  -
-
-EXAMPLE: */
-
-
-
-/*############################################################################*/
-
-
-
-
-
+-- Resultant error message
+ERROR:  duplicate key value violates unique constraint "people_email_key"
+DETAIL:  Key (email)=(joe@joe.com) already exists.
+  -- In the error message, it specifies what condition was violated
 
 /*############################################################################*/
 /*######################## EXTRA NOTES #######################################*/
