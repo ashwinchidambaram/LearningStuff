@@ -102,7 +102,7 @@ Notes:
 
 
 /*############################################################################*/
-/* Create Table
+/* Create Table: create a new table
 
 Notes:
   - To create a new table in PSQL, we will use the CREATE TABLE statement like:
@@ -197,33 +197,188 @@ EXAMPLE:
 
 
 /*############################################################################*/
-/* Insert
+/* Insert: insert values into a table
 
 Notes:
-  -
+  - The "INSERT" statement allows us to insert one or mkore rows into a table at
+    a time
+  - To use an INSERT statement:
+    - 1: specify the name of the table we want to insert a new row into after
+      the 'INSERT INTO' clause, followed by a comma seperated column list
+    - 2: List a comma seperated value list after the VALUES clause. The value
+      list must be in the same order as the columns list specified after the
+      table name
+
+    - Basic Syntax Example:
+
+          INSERT INTO table(column1, column2, ...)
+          VALUES(value1, value2, ...)
+
+    - Syntax Example: Insert Multiple Rows at Once
+
+          INSERT INTO table(column1, column2, ...)
+          VALUES(value1, value2, ...),
+          VALUES(value1, value2, ...)...
+
+    - Syntax Example: Insert Data from Another Table
+
+          INSERT INTO table
+          SELECT column1, column2, ...
+          FROM another_table
+          WHERE condition
+
+
+EXAMPLE: */
+
+-- Created a table to perform example
+
+CREATE TABLE link(
+	ID serial PRIMARY KEY,
+	url varchar(255) NOT NULL,
+	name varchar(255) NOT NULL,
+	description varchar(255),
+	rel varchar(50))
+
+-- Inserting single value set                                                [1]
+
+INSERT INTO link(url, name)
+VALUES ('www.google.com', 'Google')
+
+-- Check results
+
+SELECT *
+FROM link
+
+-- Inserting multiple value sets                                             [2]
+
+INSERT INTO link (url, name)
+VALUES ('www.bing.com', 'Bing'),
+	('www.amazon.com', 'Amazon')
+
+-- Check results
+
+SELECT *
+FROM link
+
+-- Copying a schema of another table                                         [3]
+
+CREATE TABLE link_copy (LIKE link)                                              ||1||
+  -- This is a shortcut that can be used when we want to copy a table structure
+  -- It will copy the schema of the other table, but not the data
+
+-- Copy data from one table into another                                     [4]
+
+INSERT INTO link_copy
+SELECT *
+FROM link
+WHERE name = 'Bing'
 
 
 /*############################################################################*/
-/* Update
+/* Update: update existing data in a table
 
 Notes:
-  -
+  - To change the values of columns in a table, we use the "UPDATE" statement
+
+        UPDATE table
+        SET column1 = value1,
+          column2 = value2, ...
+        WHERE condition
+
+EXAMPLE: */
+
+-- This examples updates the currently NULL description column
+
+UPDATE link
+SET description = 'Empty Description'
+
+-- Updating description column where 'name' starts with an 'A'
+
+UPDATE link
+SET description = 'Name starts with an A'
+WHERE name LIKE 'A%'
+
+-- Update data of a column with data from another column
+
+UPDATE link
+SET description = name
+  -- NOTE: the data types of the columns MUST match
+
+-- To get back results of the updated entries from an updated column
+
+UPDATE link
+SET description = 'New Description'
+WHERE id = 1
+RETURNING id, url, name, description                                            ||2||
+  -- "RETURNING" is the keyword used to return any columns we want to see
 
 
 /*############################################################################*/
-/* Delete
+/* Delete: delete rows from a table
 
 Notes:
-  -
+  - To delete rows from a table, use the "DELETE" statement as follows
 
+      DELETE FROM table
+      WHERE condition
+
+      -- 1: Specify the table we are deleting from
+      -- 2: Specify which rows to delete from using the WHERE clause
+
+      -- NOTE: If we omit the 'WHERE' clause, all the rows will be deleted       *********
+
+EXAMPLE: */
+
+-- Delete anywhere where name column starts with 'B'
+
+DELETE FROM link
+WHERE name LIKE 'B%'
+
+-- To return the row which was deleted
+
+DELETE FROM link
+WHERE name = 'A'
+RETURNING *                                                                     ||3||
 
 /*############################################################################*/
-/* Alter Table
+/* Alter Table: to change existing table structure
 
 Notes:
-  -
+  - Used when we want to change the structure of a table that already exists
+  - Syntax as follows:
 
+      ALTER TABLE table_name action
 
+      - Types of actions:
+        - Add, remove, or rename a column
+        - Set default value for the column
+        - Add CHECK constraint to a column
+        - Rename a table
+
+      - Keywords for actions:
+        - ADD COLUMN
+        - DROP COLUMN
+        - RENAME COLUMN
+        - ADD CONSTRAINT
+        - RENAME TO
+
+EXAMPLE: */
+
+-- Adding a column to 'link' table
+
+ALTER TABLE link ADD COLUMN active boolean
+
+-- Drop a column from 'link' table
+
+ALTER TABLE link DROP COLUMN active
+
+-- Rename a column in the 'link' table
+
+ALTER TABLE link RENAME column title TO new_title_name
+
+-- Rename table name
+
+ALTER TABLE link RENAME TO url_table
 /*############################################################################*/
 /* Drop Table
 
@@ -287,3 +442,16 @@ EXAMPLE: */
 /*############################################################################*/
 /*######################## EXTRA NOTES #######################################*/
 /*############################################################################*/
+/*
+||1|| - This is a shortcut of how to create/copy a table's schema
+||2|| - The syntax for returning columns that we have updated
+
+        RETURNING column1, column2, ...
+
+        -- Which will be at the end of the query
+
+||3|| - The syntax for returning columns that we have deleted
+
+        RETURNING *
+
+        -- This returns all the columns that have been deleted
