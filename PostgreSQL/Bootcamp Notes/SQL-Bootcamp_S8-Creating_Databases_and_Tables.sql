@@ -187,7 +187,6 @@ EXAMPLE:
          	ON UPDATE NO ACTION ON DELETE NO ACTION,
 
          -- Creating a foreign key in the query segments above and below
-
          CONSTRAINT account_role_user_id_fkey FOREIGN KEY (user_id)
          	REFERENCES account (user_id) MATCH SIMPLE
          	ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -231,7 +230,6 @@ Notes:
 EXAMPLE: */
 
 -- Created a table to perform example
-
 CREATE TABLE link(
 	ID serial PRIMARY KEY,
 	url varchar(255) NOT NULL,
@@ -240,34 +238,28 @@ CREATE TABLE link(
 	rel varchar(50))
 
 -- Inserting single value set                                                [1]
-
 INSERT INTO link(url, name)
 VALUES ('www.google.com', 'Google')
 
 -- Check results
-
 SELECT *
 FROM link
 
 -- Inserting multiple value sets                                             [2]
-
 INSERT INTO link (url, name)
 VALUES ('www.bing.com', 'Bing'),
 	('www.amazon.com', 'Amazon')
 
 -- Check results
-
 SELECT *
 FROM link
 
 -- Copying a schema of another table                                         [3]
-
 CREATE TABLE link_copy (LIKE link)                                              ||1||
   -- This is a shortcut that can be used when we want to copy a table structure
   -- It will copy the schema of the other table, but not the data
 
 -- Copy data from one table into another                                     [4]
-
 INSERT INTO link_copy
 SELECT *
 FROM link
@@ -288,24 +280,20 @@ Notes:
 EXAMPLE: */
 
 -- This examples updates the currently NULL description column
-
 UPDATE link
 SET description = 'Empty Description'
 
 -- Updating description column where 'name' starts with an 'A'
-
 UPDATE link
 SET description = 'Name starts with an A'
 WHERE name LIKE 'A%'
 
 -- Update data of a column with data from another column
-
 UPDATE link
 SET description = name
   -- NOTE: the data types of the columns MUST match
 
 -- To get back results of the updated entries from an updated column
-
 UPDATE link
 SET description = 'New Description'
 WHERE id = 1
@@ -330,12 +318,10 @@ Notes:
 EXAMPLE: */
 
 -- Delete anywhere where name column starts with 'B'
-
 DELETE FROM link
 WHERE name LIKE 'B%'
 
 -- To return the row which was deleted
-
 DELETE FROM link
 WHERE name = 'A'
 RETURNING *                                                                     ||3||
@@ -365,39 +351,142 @@ Notes:
 EXAMPLE: */
 
 -- Adding a column to 'link' table
-
 ALTER TABLE link ADD COLUMN active boolean
 
 -- Drop a column from 'link' table
-
 ALTER TABLE link DROP COLUMN active
 
 -- Rename a column in the 'link' table
-
 ALTER TABLE link RENAME column title TO new_title_name
 
 -- Rename table name
-
 ALTER TABLE link RENAME TO url_table
 /*############################################################################*/
-/* Drop Table
+/* Drop Table: to remove/drop tables
 
 Notes:
-  -
+  - Syntax:
+
+      DROP TABLE[IF EXISTS] table_name
+
+        - The 'IF EXISTS' is an optional term that can be used to avoid errors
+          that may occur if the table does not exist
+
+  - At the end of a DROP TABLE statement, SQL will automatically function with a *********
+    statement 'RESTRICT'. RESTRICT ensures that there are no tables depending on
+    the table that we are attempting to deop. If there is such a table that,
+    then it would bar the table from being dropped. To override this, we can use
+    the 'CASCADE' statement. But more related to this, look to Section 10: Views
+
+EXAMPLE: */
+
+-- Dropping table
+DROP TABLE test2
+
+-- Dropping table that doesn't exist returns following output message
+ERROR:  table "test2" does not exist
+SQL state: 42P01
+  -- This would terminate a script and throw error. To avoid that, look below
+
+-- Dropping table w/"IF EXISTS"
+DROP TABLE IF EXISTS test2
+
+-- Dropping table with 'IF EXISTS' clause returns
+NOTICE:  table "test2" does not exist, skipping
+DROP TABLE
+
+Query returned successfully in 38 msec.
+  -- Which would allow a query to run without premature termination
 
 
 /*############################################################################*/
 /* CHECK Constraint
 
 Notes:
-  -
+  - A CHECK constraint is a type of constraint that allows us to specify if a
+    value in a column must meet a specific requirement
+    - Functions a boolean expression to evaluate the values in a column
+
+  - We can also name a CONSTRAINT to make it easier to read error messages
+
+      CREATE TABLE table_name(
+        column type CONSTRAINT constraint_name CHECK(some_condition))
+
+EXAMPLE: */
+
+-- [1]
+
+  -- Creating a table using CHECK to constrain birthday, join date, and salary
+    CREATE TABLE new_users(
+    	id serial PRIMARY KEY,
+    	first_name varchar(50),
+    	birth_date DATE CHECK(birth_date > '1900-01-01'),
+    	join_date DATE CHECK(join_date > birth_date),
+    	salary integer CHECK(salary > 0))
+
+    -- the birth date check ensures reasonable age; ie: not over 100 yrs old
+    -- join date has to have been after the person was born
+    -- salary can't be 0 or lower
+
+  -- Now if we try to insert an invalid data entry
+    INSERT INTO new_users(first_name, birth_date, join_date, salary)
+    VALUES('Joe', '1980-02-02', '1990-04-04', -10)
+
+  -- Our returned error message is:
+    ERROR:  new row for relation "new_users" violates check constraint "new_users_salary_check"
+    DETAIL:  Failing row contains (1, Joe, 1980-02-02, 1990-04-04, -10).
+    SQL state: 23514
+      -- The error message also details what check the data failed, and the data itself
+
+-- [2]
+
+  -- Creating a table while naming a CONSTRAINT
+    CREATE TABLE checktest(
+      sales integer CONSTRAINT positive_sales CHECK(sales>0))
+
+  -- Testing one valid value
+    INSERT INTO checktest(sales)
+    VALUES(10)
+
+  -- Testing an invalid value
+    INSERT INTO checktest(sales)
+    VALUES(-10)
+
+  -- Our returned error message for the invalid value is:
+    ERROR:  new row for relation "checktest" violates check constraint "positive_sales"
+    DETAIL:  Failing row contains (-10).
+    SQL state: 23514
+      -- Now we can make it easier to know what the violated constraint was
 
 
 /*############################################################################*/
 /* NOT NULL Constraint
 
 Notes:
-  -
+  - NOT NULL is a constraint simply used to enforce the rule that a column must
+    not accept NULL values. Meaning, you must specify a value that isn't NULL
+    when inserting/updating data
+
+EXAMPLE: */
+
+-- Create a test table
+CREATE TABLE learnnull(
+	firstname varchar(50),
+	sales integer NOT NULL)
+    -- Using NOT NULL to add constraint
+
+-- Try inserting just one column value
+INSERT INTO learnnull(firstname)
+VALUES('John')
+  /* In this, we know that we are inserting just one column value, which would
+      generally fill the unspecified columns with NULL values. However, since we
+      used the NOT NULL constraint when creating the table, this should throw an
+      error this would violate the condition. */
+
+-- Error message
+ERROR:  null value in column "sales" violates not-null constraint
+DETAIL:  Failing row contains (John, null).
+  -- Here we can see that SQL filled in the row with (John, null) which fails
 
 
 /*############################################################################*/
