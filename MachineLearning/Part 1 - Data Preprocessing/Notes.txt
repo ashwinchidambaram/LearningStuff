@@ -1,0 +1,18 @@
+Part 1: Data Preprocessing Notes
+
+-- 2.15 
+
+We need to always remember the difference between the independent and dependent variables. Always using the independent variables to predict the dependent variables. 
+
+-- 2.16
+
+Import the following libraries which are generally used:
+
+import numpy as np
+    ## numpy is used to perform any mathematical function in python and and create alias 'np' to make it easy to refer to
+    
+import matplotlib.pyplot as plt
+    ## matplotlib.pyplot (matplotlib is main library, pyplot is sublibrary)
+    
+import pandas as pd
+    ## pandas library is best to import and manage data sets
