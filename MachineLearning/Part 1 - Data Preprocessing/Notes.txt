@@ -1,8 +1,10 @@
-Part 1: Data Preprocessing Notes
+======== Part 1: Data Preprocessing Notes [Python] ========
 
 -- 2.15
 
-We need to always remember the difference between the independent and dependent variables. Always using the independent variables to predict the dependent variables.
+We need to always remember the difference between the independent and dependent
+variables. Always using the independent variables to predict the dependent
+variables.
 
 -- 2.16
 
@@ -32,9 +34,46 @@ To separate data into Dependent/Independent Variables:
 
 -- 2.18
 
-A class is the model of something we want to build. For example, if we make a house construction plan that gathers the instructions on how to build a house, then this construction plan is the class.
+A class is the model of something we want to build. For example, if we make a
+house construction plan that gathers the instructions on how to build a house,
+then this construction plan is the class.
 
-An object is an instance of the class. So if we take that same example of the house construction plan, then an object is simply a house. A house (the object) that was built by following the instructions of the construction plan (the class).
-And therefore there can be many objects of the same class, because we can build many houses from the construction plan.
+An object is an instance of the class. So if we take that same example of the
+house construction plan, then an object is simply a house. A house (the object)
+that was built by following the instructions of the construction plan (the class).
+And therefore there can be many objects of the same class, because we can build
+many houses from the construction plan.
 
-A method is a tool we can use on the object to complete a specific action. So in this same example, a tool can be to open the main door of the house if a guest is coming. A method can also be seen as a function that is applied onto the object, takes some inputs (that were defined in the class) and returns some output.
+A method is a tool we can use on the object to complete a specific action. So in
+this same example, a tool can be to open the main door of the house if a guest
+is coming. A method can also be seen as a function that is applied onto the object,
+takes some inputs (that were defined in the class) and returns some output.
+
+-- 2.19
+
+One of the most common methods to dealing with missing data, is by replacing the
+missing data point with the average of all other data values in the column.
+
+To do so:
+
+  from sklearn.impute import SimpleImputer
+    ## sklearn AKA 'scikit learn' which has the ability to preprocess data
+    ## Using SimpleImputer class which handles missing data
+
+  imputer = SimpleImputer(missing_values = np.nan, strategy = 'mean')
+    ## First we create the ruleset by which imputer will work
+    ## Other than 'mean', we can also use 'median' or 'most_frequent'
+
+  imputer = imputer.fit(X[a, b])
+    ## Using imputer, we fit the X dataset in range [a, b] and set it to the imputer object
+        ### The ':' represents all lines/rows as before
+        ### When adding range for 'b' remember that we start with the lower bound, and end with one more than upper bound
+        ### This is because the upper bound is always excluded
+
+  X[a, b] = imputer.transform(X[a, b])
+    ## We are applying the method of the imputer object 'transform' that replaces the missing data with the mean of the column
+
+
+
+####################################################################################################################################
+NOTE: By highlighting a keyword and pressing 'Command I', we can inspect and understand syntax/usage
