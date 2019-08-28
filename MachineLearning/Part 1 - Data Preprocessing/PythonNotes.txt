@@ -73,6 +73,56 @@ To do so:
   X[a, b] = imputer.transform(X[a, b])
     ## We are applying the method of the imputer object 'transform' that replaces the missing data with the mean of the column
 
+-- 2.20
+
+Categorical Data: Any data that is represented as a category
+
+We have to sort data into categorical because while doing ML, the computer will
+not be able to interpret a proper meaning from arbitrary/categorical data.
+
+If we were to simply sort categorical data, we could potentially run into issues
+such as bias. In this section's example, we have categorical data {France, Spain
+Germany} which are assigned values from 0-2 and as such have implicit bias from
+differing values. This can be seen if we were to use the following code snippet:
+
+  from sklearn.preprocessing import LabelEncoder
+  labelencoder_X = LabelEncoder()
+  X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
+
+To mitigate this, we would have to use **Dummy Encoding** which in essence assigns
+values to each of the categorical data as 0 or 1 in a truth table like manner.
+By doing this, we can reduce implicit bias that may be present. Visually what
+happens is depicted below:
+
+  Without Dummy Encoding:
+
+    COUNTRY       ENCODED
+    France          0
+    Spain           2
+    Germany         1
+    Spain           2
+    Germany         1
+    France          0
+    Spain           2
+    France          0
+    Germany         1
+    France          0
+
+  With Dummy Encoding:
+
+    COUNTRY       FRANCE   GERMANY    SPAIN
+    France          1         0         0
+    Spain           0         0         1
+    Germany         0         1         0
+    Spain           0         0         1
+    Germany         0         1         0
+    France          1         0         0
+    Spain           0         0         1
+    France          1         0         0
+    Germany         0         1         0
+    France          1         0         0
+
+
 
 
 ####################################################################################################################################

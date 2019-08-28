@@ -44,3 +44,23 @@ imputer = imputer.fit(X[:, 1:3])
 
 X[:, 1:3] = imputer.transform(X[:, 1:3])
     ## We are applying the method of the imputer object 'transform' that replaces the missing data with the mean of the column
+    
+# Encoding categorical data 
+    
+# from sklearn.preprocessing import LabelEncoder 
+# labelencoder_X = LabelEncoder()
+# X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
+    ## Doing the above, results in a bias due to how a computer works and assigns the countries differing values
+    
+    ## To prevent this, we can can create a series of dummy variables that will be set as one column for each categorical variable
+    ## In this example, we have {France, Germany, and Spain} so will create three dummy columns
+        ## To image a visual, think about creating a truth table with {x, y, z} where we use 1 for an instance an 0 if not
+    
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder 
+labelencoder_X = LabelEncoder()
+X[:, 0] = labelencoder_X.fit_transform(X[:, 0])
+onehotencoder = OneHotEncoder(categorical_features = [0])
+X = onehotencoder.fit_transform(X).toarray()
+
+labelencoder_Y = LabelEncoder()
+Y = labelencoder_Y.fit_transform(Y)
