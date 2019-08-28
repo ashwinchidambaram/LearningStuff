@@ -1,18 +1,31 @@
 Part 1: Data Preprocessing Notes
 
--- 2.15 
+-- 2.15
 
-We need to always remember the difference between the independent and dependent variables. Always using the independent variables to predict the dependent variables. 
+We need to always remember the difference between the independent and dependent variables. Always using the independent variables to predict the dependent variables.
 
 -- 2.16
 
 Import the following libraries which are generally used:
 
-import numpy as np
-    ## numpy is used to perform any mathematical function in python and and create alias 'np' to make it easy to refer to
-    
-import matplotlib.pyplot as plt
-    ## matplotlib.pyplot (matplotlib is main library, pyplot is sublibrary)
-    
-import pandas as pd
-    ## pandas library is best to import and manage data sets
+  import numpy as np
+      ## numpy is used to perform any mathematical function in python and and create alias 'np' to make it easy to refer to
+
+  import matplotlib.pyplot as plt
+      ## matplotlib.pyplot (matplotlib is main library, pyplot is sublibrary)
+
+  import pandas as pd
+      ## pandas library is best to import and manage data sets
+
+-- 2.17
+To store/read a dataset:
+
+  dataset = pd.read_csv('DATASET_NAME')
+
+To separate data into Dependent/Independent Variables:
+
+  X = dataset.iloc[a, b].values
+  Y = dataset.iloc[c, d].values
+
+    ## Where a, c represent the lines/rows to be read; Where b, d represent the columns to be read
+    ## By using ':' it signifies all, and we can restrict by doing ':-x' or 'x' where x is some number 
