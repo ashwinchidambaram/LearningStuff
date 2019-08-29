@@ -122,8 +122,36 @@ happens is depicted below:
     Germany         0         1         0
     France          1         0         0
 
+-- 2.22
 
+When working with a data set, we should always make sure to split it into a
+Training set and a Test set.
+
+The reason for this being that, by training a ML model too much using one data
+set, it will begin to get good at rote memorization but worse with inference.
+But by splitting into a Training and Test datasets, it will allow for better
+accuracy from better inference algorithms. This is called "overfitting".
+
+To apply this using code:
+
+  from sklearn.model_selection import train_test_split
+    ## Where sklearn represents scikit
+    ## model_selection is the upgraded library from cross_validation
+    ## and train_test_split is the library used to split a data set into train/test
+
+  X_train, X_test, Y_train, Y_test = train_test_split(a, b, test_size = 0.2)
+    ## Where X represents independent variables, Y represent dependent variables
+    ## We specify the variables as either 'train' or 'test'
+    ## Then we use 'train_test_split' to split dataset according to specification
+      ### format: train_test_split(a, b, test_size = 0.2)
+      ### test_size refers to the split created in decimal value (0.2 => 20%)
+
+      NOTE: Generally using a test_size between 0.2, 0.25, or 0.3 is recommended
+
+Doing so, in this example, splits our 10 data points into a test set containing
+2 items and a training set containing 8.
 
 
 ####################################################################################################################################
 NOTE: By highlighting a keyword and pressing 'Command I', we can inspect and understand syntax/usage
+NOTE: Generally using a test_size between 0.2 and 0.3 is recommended

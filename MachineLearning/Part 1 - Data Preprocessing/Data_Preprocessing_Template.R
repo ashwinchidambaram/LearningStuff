@@ -1,9 +1,9 @@
 ###### Data Preprocessing ########
 
-# Importing the Dataset
+## Importing the Dataset
 dataset = read.csv('Data.csv')
 
-# Taking Care of the Missing Data
+## Taking Care of the Missing Data
 dataset$Age = ifelse(is.na(dataset$Age), 
                      ave(dataset$Age, FUN = function(x) mean(x, na.rm = TRUE)), 
                      dataset$Age) 
@@ -20,18 +20,39 @@ dataset$Salary = ifelse(is.na(dataset$Salary),
                      ave(dataset$Salary, FUN = function(x) mean(x, na.rm = TRUE)), 
                      dataset$Salary) 
 
-# Encoding Categorical Data
+## Encoding Categorical Data
 dataset$Country = factor(dataset$Country,
                          levels = c('France', 'Spain', 'Germany'),
                          labels = c(1, 2, 3))
+  # Here we will be using the factor function, which will break down the categorical data into factors
+
 dataset$Purchased = factor(dataset$Purchased,
                          levels = c('No', 'Yes'),
                          labels = c(0, 1))
 
+## Splitting a dataset into a Training Set and Test Set
 
-# Here we will be using the factor function, which will break down the categorical data into factors
+  #install.packages('caTools')
+    # To install packages, simply use 'install.packages('PACKAGE_NAME')'
+  library(caTools)
+    # Runs an instance to activate a package 
+
+  # To split the dataset, we must first set it to the same seed
+set.seed(123)
+split = sample.split(dataset$Purchased, SplitRatio = 0.8)
+  # In python we usually specify the split in terms of a test set
+  # In R we specify in terms of a training set
+
+# Create Training Set
+training_set = subset(dataset, split == TRUE)
+
+# Create Test Set
+test_set = subset(dataset, split == FALSE)
 
 
 
 
+#####################################################################################################################
 # NOTE: using Function F1 will allow for lookup 
+# NOTE: To install packages, simply use 'install.packages('PACKAGE_NAME')'
+# NOTE: To run an instance of a package, use 'library(LIBRARY_NAME)
