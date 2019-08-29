@@ -151,6 +151,26 @@ To apply this using code:
 Doing so, in this example, splits our 10 data points into a test set containing
 2 items and a training set containing 8.
 
+-- 2.23
+
+When dealing with data to be interpreted, it is important to remember to scale
+data accurately so as to not have massive bias in terms of how the computer
+interprets data. For example, age and salary would be vastly different in scale
+as humans could probably live till about 120 at most, and salary can go from
+as low as 10-20K to 10-20M+.
+
+This could be solved by using Feature Scaling:
+
+  Standardization:
+
+    x_stand = [x - mean(x)] / SD(x)
+
+  Normalization:
+
+    x_norm = [x - min(x)] / [max(x) - min(x)]
+
+TLDR:
+--
 
 ####################################################################################################################################
 NOTE: By highlighting a keyword and pressing 'Command I', we can inspect and understand syntax/usage

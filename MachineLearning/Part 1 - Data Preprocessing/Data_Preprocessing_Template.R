@@ -35,7 +35,7 @@ dataset$Purchased = factor(dataset$Purchased,
   #install.packages('caTools')
     # To install packages, simply use 'install.packages('PACKAGE_NAME')'
   library(caTools)
-    # Runs an instance to activate a package 
+    # Runs an insta  ce to activate a package 
 
   # To split the dataset, we must first set it to the same seed
 set.seed(123)
@@ -48,6 +48,17 @@ training_set = subset(dataset, split == TRUE)
 
 # Create Test Set
 test_set = subset(dataset, split == FALSE)
+
+## Feature Scaling 
+
+#training_set = scale(training_set)
+#test_set = scale(test_set)
+  # To scale the training and test set, it can be done as simply as above
+
+# However, since we have two non-numeric columns [1, 4] we can't use above method. Instead: 
+training_set[, 2:3] = scale(training_set[, 2:3])
+test_set[, 2:3] = scale(test_set[, 2:3])
+
 
 
 
