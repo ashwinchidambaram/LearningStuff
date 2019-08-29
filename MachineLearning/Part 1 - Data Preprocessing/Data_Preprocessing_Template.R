@@ -59,10 +59,6 @@ test_set = subset(dataset, split == FALSE)
 training_set[, 2:3] = scale(training_set[, 2:3])
 test_set[, 2:3] = scale(test_set[, 2:3])
 
-
-
-
-
 #####################################################################################################################
 # NOTE: using Function F1 will allow for lookup 
 # NOTE: To install packages, simply use 'install.packages('PACKAGE_NAME')'
