@@ -35,7 +35,7 @@ dataset$Purchased = factor(dataset$Purchased,
   #install.packages('caTools')
     # To install packages, simply use 'install.packages('PACKAGE_NAME')'
   library(caTools)
-    # Runs an insta  ce to activate a package 
+    # Runs an instance to activate a package 
 
   # To split the dataset, we must first set it to the same seed
 set.seed(123)
