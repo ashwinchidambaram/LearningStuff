@@ -1,0 +1,180 @@
+======== Part 5: Multiple Linear Regression ========
+
+-- 5.40
+
+Multiple Linear Regression Formula:
+
+  y = b0 + (b1 * x1) + (b2 * x2) + (b3 * x3) ...
+
+      y             => Dependent Variable (DV)
+      x1, x2, ..,   => Independent Variable (IV)
+      b1, b2, ...   => Coefficient (How a unit change in x1 results in a change in y)
+      b0            => Constant
+
+  In our sample data set, we would end up with a base formula looking like:
+
+    Salary = b0 + (b1*Experience)
+
+-- 5.41
+
+When we perform linear regressions, we make several assumptions for it to hold true:
+
+  1. Linearity
+  2. Homoscedasticity
+  3. Multivariate Normality
+  4. Independence of Errors
+  5. Lack of Multicollinearity
+
+-- 5.42
+
+For our dataset, we have it split it into 5 categories:
+
+  - R&D Spend   (IV)
+  - Admin       (IV)
+  - Marketing   (IV)
+  - State       (IV)
+  - Profit      (DV)
+
+To create a rough multiple linear regression equation for our data set:
+
+  y = b0 + b1*x1 + b2*x2 + b3*x3 + b4*x4
+
+  However, the issue with this is that while the first 3 IVs can be described
+  numerically, the State has no numerical data value. To mitigate this, we would
+  go about creating a dummy variable since it is categorical data.
+
+  For more info on this refer to prior notes.
+
+  But what happens in essence is we use a dummy variable to replace 'x4'
+  within the equation. SO the equation looks more like the following:
+
+  y = b0 + b1*x1 + b2*x2 + b3*x3 + b4*D1
+
+-- 5.43
+
+When using dummy variables we MUST ALWAYS remember that we can't use more than
+one dummy variable within a Linear regression. Doing so lands us in the midst of
+the "Dummy Variable Trap". Which in essence means that by specifying more every
+dummy variable, we will double count one variable.
+
+
+  Mathematically, assume that we have dummy variables D1 and D2. If we include
+  both D1 and D2, we would get something like below:
+
+    ... b4*D1 + b5*D2
+
+  However, if we only have dummy variables D1 and D2 such that D1 and D2 can
+  equal 1 or 0 st D1 != D2,
+
+    Then,
+
+      D2 = 1 - D1
+
+      Which would be valid, but does not make sense logically.
+
+-- 5.44
+
+Before we get into Backward Elimination, make sure to be introduced to the p-value
+and have a basic understanding of how it works.
+
+  - https://www.mathbootcamps.com/what-is-a-p-value/
+  - https://www.wikihow.com/Calculate-P-Value
+
+In essence, a p-value is:
+
+  - The p-value is the probability of getting a sample like ours, or more extreme
+    than ours IF the null hypothesis is true.
+
+  - So, we assume the null hypothesis is true and then determine how “strange”
+    our sample really is. If it is not that strange (a large p-value) then we
+    don’t change our mind about the null hypothesis. As the p-value gets smaller,
+    we start wondering if the null really is true and well maybe we should change
+    our minds (and reject the null hypothesis).
+
+  - A small p-value indicates that by pure luck alone, it would be unlikely to
+    get a sample like the one we have if the null hypothesis is true. If this is
+    small enough we start thinking that maybe we aren’t super lucky and instead
+    our assumption about the null being true is wrong. Thats why we reject with
+    a small p-value.
+
+  - A large p-value indicates that it would be pretty normal to get a sample like
+    ours if the null hypothesis is true. So you can see, there is no reason here
+    to change our minds like we did with a small p-value.
+
+-- 5.45
+
+There are 5 main methods to building a model for Linear Regression:
+
+  1. All-In
+  2. Backwards Elimination
+  3. Forward Selection
+  4. Bidirectional Elimination
+  5. Score Comparison
+
+  Numbers 2, 3, 4 are sometimes refer to Stepwise Regression
+
+~ All-In Method: Basically when we use all our variables (Not recommended but there
+  are cases)
+
+  - If you have prior knowledge and we know that the variables we have are the
+    true predictors for a model
+  - You are required to do so
+  - If we are using this method to prepare for backwards elimination method
+
+~ Backwards Elimination Method:
+
+  1. Select a significance level to stay in the model (e.g. SL = 0.05)
+  2. Fit the full model with all possible predictors
+  3. Consider the predictor with the HIGHEST P-Value.
+
+      If P > SL (Significance Level)
+        If true, go to Step 4; If false, FIN.
+
+  4. Remove the predictor
+  5. Fit model without this variable (Need to do this because we can't simply
+      remove a variable and expect everything to be fine. Everything has
+      dependencies on each other)
+
+      Loop back to Step 3.
+
+  FIN --> Model is Ready
+
+~ Forward Selection Method:
+
+  1. Select a significance level to stay in the model (e.g. SL = 0.05)
+  2. Fit the simple regression models Y ~ Xn (Test regression with each variable
+      individually) and select the one with the lowest P-Value.
+  3. Keep this variable, and fit all possible models with one extra predictor
+      added to the one we already selected prior.
+  4. Consider the predictor with the LOWEST P-Value. If P < SL, then loop back to
+      Step 3. Else, go to FIN.
+
+  FIN --> Keep the previous model since we want to exclude the one just created
+          if its not a good predictor.
+
+~ Bidirectional Elimination: Kind of a combo of Backwards & Forwards Methods
+
+  1. Select a significance level to enter and to stay in the model
+      (e.g. SLENTER = 0.05, SLSTAY = 0.05)
+  2. Perform the next step of Forward Selection (new variables must have:
+      P < SLENTER to enter)
+  3. Perform ALL the steps of Backwards Elimination (old variables must have:
+      P < SLSTAY to stay)
+
+      Loop back to Step 2 till no new variables can enter, and no old variables
+      can exit.
+  4. No new variables can enter and no old variables can exit. Go to FIN.
+
+  FIN --> Model is Ready
+
+~ All Possible Models Method: Most resource intensive, but thorough method
+
+  1. Select a criterion of goodness (e.g. Akaike criterion)
+  2. Construct all possible regression models: 2^N - 1 total combinations
+  3. Select the one with the best criterion
+
+  FIN --> Model is ready
+
+  CAUTION: THIS IS SUPER RESOURCE INTENSIVE
+
+    Imagine we had 10 columns of data, then it will generate 1023 possible models
