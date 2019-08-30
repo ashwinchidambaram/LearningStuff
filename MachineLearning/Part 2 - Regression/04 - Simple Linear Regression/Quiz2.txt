@@ -16,4 +16,4 @@ Q4: Which of the following formulas is not a simple linear regression model ?
 
 Q5: What is the correct way of writing a simple linear regression equation in the formula parameter in R ?
 
-  Answer: Salary ~ YearsExperience 
+  Answer: Salary ~ YearsExperience
