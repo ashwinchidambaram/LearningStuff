@@ -1,0 +1,30 @@
+======== Part 4: Simple Linear Regression ========
+
+-- 4.28
+
+Simple Linear Regression Formula:
+
+  y = b0 + (b1 * x1)
+
+      y     => Dependent Variable (DV)
+      x1    => Independent Variable (IV)
+      b1    => Coefficient (How a unit change in x1 results in a change in y)
+      b0    => Constant
+
+  In our sample data set, we would end up with a base formula looking like:
+
+    Salary = b0 + (b1*Experience)
+
+-- 4.29
+
+To get a line of best fit, we would need to compare our actual observations to
+what we observed from our model.
+
+We label our actual observation as Yi, and our expected to be Yî.
+
+To get the best fitting line we do:
+
+  SUM(Yi - Yî)^2
+
+    Which in essence takes the distance(difference) between the actual and
+    expected values, then take the summation of each value squared.
