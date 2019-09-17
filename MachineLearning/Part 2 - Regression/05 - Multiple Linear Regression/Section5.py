@@ -46,7 +46,20 @@ regressor.fit(X_train, Y_train)
 # Predicting the Test Set Results 
 Y_pred = regressor.predict(X_test) 
 
+## Builidng the Optimal Model using Backwards Elimination 
+import statsmodels.formula.api as sm
 
+X = np.append(arr = np.ones((50, 1)).astype(int), values = X, axis = 1)
+    # If adding array of vals like above, need to specify whether it's a column or row
+        # To do so, after converting array type to int type, axis = 0 or 1
+            # Axis type 0: line
+            # Axis type 1: column
+ 
+# Create a new matrix of features which will the the optimal set of features 
+X_opt = X[:, [0, 1, 2, 3, 4, 5]]
+
+regressor_OLS = sm.OLS(endog = Y, exdog = X_opt).fit()
+    # Need to create a new fit with all the possible independent varaibles
 
 
 
