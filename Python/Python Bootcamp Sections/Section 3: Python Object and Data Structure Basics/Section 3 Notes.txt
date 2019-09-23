@@ -1,0 +1,134 @@
+======== Section 3: Python Object and Data Structure Basics ========
+
+== 3.11 == Python Numbers
+
+- There are two main number types that we will end up working with.
+    - Integers: which are whole numbers
+    - Floating Point: numbers with a decimal
+
+- Basic Arithmetic Manipulation:
+
+    - Addition: Simply using addition sign
+
+        4 + 4
+
+    - Subtraction: Simply using subtraction sign
+
+        8 - 4
+
+    - Multiplication: Simply using multiplication sign
+
+        4 * 4
+
+    - Division: Simply using division sign
+
+        8 / 4
+
+    - Mod: Simply using percent sign, and will return remainder value
+
+        8 % 4
+
+    - Exponents: Simply using two asterkisk (**) sign
+
+        4 ** 4
+
+    - Order of Operations: Will always follow order of operations
+
+        2 + 10 * 10 + 3
+        (2+10) * (10 + 3)
+
+
+
+
+== 3.12 == FAQ
+
+1. What's the difference between floating point and an integer?
+
+  An integer has no decimals in it, a floating point number can display digits
+  past the decimal point.
+
+2. Why doesn't 0.1+0.2-0.3 equal 0.0 ?
+
+  This has to do with floating point accuracy and computer's abilities to
+  represent numbers in memory. For a full breakdown, check out:
+  https://docs.python.org/2/tutorial/floatingpoint.html
+
+
+
+
+== 3.13 == Variable Assignments
+
+- To assign a data type to a variable, simply create an instance of them like:
+  - my_dogs = 2
+
+- Rules to Variable Naming in Python:
+  - Names can NOT start with a number
+  - There can be no spaces in a name, use "_" instead
+  - Can't use any of the following symbols
+    - :
+    - '
+    - "
+    - ,
+    - <>
+    - /
+    - ?
+    - |
+    - \
+    - ()
+    - !
+    - @
+    - #
+    - $
+    - %
+    - ^
+    - &
+    - *
+    - ~
+    - -
+    - +
+
+- Python uses 'Dynamic Typing'
+  - What this means is that, you can reassign variables to different data types
+  - This makes python overall more flexible than other languages that are
+    "Statically-Typed"
+
+  - Example:
+
+    - In Python, the following is completely ok
+
+        my_dogs = 2
+
+        my_dogs = ["Sammy", "Frankie"]
+
+    - However, in other languages, the above would throw an error
+
+  - Pros of Dynamic Typing:
+    - Very easy to work with
+    - Faster development time
+
+  - Cons of Dynamic Typing:
+    - May result in bugs for unexpected data types
+    - Need to be aware of type()
+
+- Python also has the ability to work with a variable referred to within itself
+
+  - For example:
+
+    a = 20
+
+    a = a + a         ==> Should return a = 40
+
+- To check the type of a variable within python, use:
+
+    type(variableName)
+
+
+
+
+== 3.14 == Introduction to Strings
+
+- Strings are sequences of characters, using the syntax of either single or
+  double quotes
+
+    - 'hello'
+    - "hello"

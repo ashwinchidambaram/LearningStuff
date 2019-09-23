@@ -1,0 +1,16 @@
+- Basic Arithmetic Manipulation:
+    - Addition: 4 + 4
+    - Subtraction: 8 - 4
+    - Multiplication: 4 * 4
+    - Division: 8 / 4
+    - Mod: 8 % 4
+    - Exponents: 4 ** 4
+    - Order of Operations: Will always follow order of operations
+        2 + 10 * 10 + 3
+        (2+10) * (10 + 3)
+
+- Check the data type of a variable:
+
+    type(variableName)
+
+- 

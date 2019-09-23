@@ -1,0 +1,13 @@
+======== Quiz 1: Numbers Quiz ========
+
+Question 1: Which one of these is a floating point number?
+
+  A: 3.2                                                               [CORRECT]
+
+Question 2: Which of these will output the result 36?
+
+  A: 6 * 6                                                             [CORRECT]
+
+Question 3: In Python 3, what is the output of 1/2 ?
+
+  A: 0.5                                                               [CORRECT]
